@@ -1,3 +1,17 @@
+/*
+    Author: Aniruddha Mukehrjee
+    Roll No.: CSB21076
+
+    Description: Deals with the first problem recursively.
+
+    The function findMinIndex uses binary search in the heights of the buildings to get teh index where the height first occurs.
+
+    The function findActualIndex checks from the minIndex to the end of the buildings to get to the actual index using the x index
+
+    This approach assumes the widths of the building show no trend.
+
+    This has a worst case performance of O(n).
+*/
 #include <iostream>
 #include <time.h>
 
@@ -49,8 +63,6 @@ int findActualIndex(int *cumDistances, int len, int x, int minIndex)
 
 int main()
 {
-    clock_t start, end;
-    start = clock();
     int len = 6;
     int **arr = new int *[len];
 
@@ -73,8 +85,8 @@ int main()
 
     int yMax = arr[len - 1][1];
 
-    int x = 6;
-    int y = 4;
+    int x = 11;
+    int y = 10;
 
     int minIndex = findMinIndex(arr, 0, len - 1, x, y) + 1;
     int actualIndex = findActualIndex(cumulativeDistances, len, x, minIndex);
@@ -94,6 +106,5 @@ int main()
         delete[] arr[i];
     }
     delete[] arr;
-    end = clock();
-    cout << "Running time = " << (double)end - start << endl;
+    delete[] cumulativeDistances;
 }

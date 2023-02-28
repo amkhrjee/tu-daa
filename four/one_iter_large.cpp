@@ -1,35 +1,51 @@
-/*
-    Author: Aniruddha Mukehrjee
-    Roll No.: CSB21076
-
-    Description: This deals with the first problem iteratively. Having only one while loop, it has a worst case performance of O(n).
-*/
 #include <iostream>
 #include <time.h>
 using namespace std;
 
 int findBuilding(int **, int, int, int);
 
+void randomBuildings(int **arr, int len)
+{
+    int height = 1;
+    for (int i = 0; i < len; i++)
+    {
+        int randomNum = rand() % 1000;
+        arr[i] = new int[2]{randomNum, height + randomNum};
+    }
+}
+
 int main()
 {
     clock_t start, end;
-    start = clock();
-    int len = 6;
+    int len = 100000;
     int **arr = new int *[len];
 
-    // first param = width
-    // second param = height
-    arr[0] = new int[2]{2, 1};
-    arr[1] = new int[2]{3, 3};
-    arr[2] = new int[2]{2, 4};
-    arr[3] = new int[2]{2, 7};
-    arr[4] = new int[2]{2, 9};
-    arr[5] = new int[2]{1, 10};
+    randomBuildings(arr, len);
 
-    int x = 6;
-    int y = 3;
+    int *cumulativeDistances = new int[len];
+    int xMax = 0;
+    for (int i = 0; i < len; i++)
+    {
+        xMax += arr[i][0];
+        cumulativeDistances[i] = xMax;
+    }
 
+    int yMax = arr[len - 1][1];
+
+    cout << "Maximum possible X coordinate = " << xMax << endl;
+    cout << "Maximum possible Y coordinate = " << yMax << endl;
+    int x, y;
+    cout << "Enter X coordinate: ";
+    cin >> x;
+
+    cout << "Enter Y coordinate: ";
+    cin >> y;
+
+    start = clock();
     int buildingNum = findBuilding(arr, len, x, y) + 1;
+    cout << "Building Details" << endl;
+    cout << "Width = " << arr[buildingNum - 1][0]
+         << " Height = " << arr[buildingNum - 1][1] << endl;
     if (buildingNum == -1)
     {
         cout << "Error: Building Not Found" << endl;

@@ -1,63 +1,15 @@
-/*
-    ITERATIVE SOLUTION TO PROBLEM 2
-    Author: Aniruddha Mukherjee
-    Roll No. : CSB21076
-*/
-
 #include <iostream>
-#include <fstream>
 using namespace std;
 
-void writeToFile(int);
-void readFromFile(int *);
 void swap(int *, int, int);
 void partition(int *, int, int, int);
 void printArr(int *, int);
 
 int main()
 {
-    bool correctInput = false;
-    int len;
-    while (!correctInput)
-    {
-        cout << "Enter the length for random array: ";
-        cin >> len;
-        if (len > 0)
-        {
-            correctInput = true;
-        }
-        else
-        {
-            cout << "Input must be greater than 0 (zero)" << endl;
-        }
-    }
-
-    writeToFile(len);
-
-    // reading from the file
-    int *arr = new int[len];
-    readFromFile(arr);
-
-    printArr(arr, len);
-
-    int pivot;
-    bool isPivotPresent = false;
-    while (!isPivotPresent)
-    {
-        cout << "Choose a pivot: ";
-        cin >> pivot;
-
-        for (int i = 0; i < len; i++)
-        {
-            if (arr[i] == pivot)
-            {
-                isPivotPresent = true;
-            }
-        }
-        if (!isPivotPresent)
-            cout << "Pivot does not exist in array" << endl;
-    }
-
+    int pivot = 20;
+    int arr[] = {1, 2, 3, -1, 33, 20, 100, -9, 0, 34, 500, -34, 20, 33};
+    int len = 14;
     cout << "Before partition:" << endl;
     printArr(arr, len);
     // perform partition
@@ -154,28 +106,5 @@ void partition(int *arr, int left, int right, int pivot)
         }
         printArr(arr, right - left + 1);
         cout << "----------------------------" << endl;
-    }
-}
-
-// write to a file in the same directory
-void writeToFile(int len)
-{
-    ofstream arrFile("Array.txt");
-    for (int i = 0; i < len; i++)
-    {
-        arrFile << rand() % 100 << " ";
-    }
-    arrFile.close();
-}
-
-void readFromFile(int *arr)
-{
-    ifstream arrFile("Array.txt");
-    int num, i = 0;
-    arrFile >> num;
-    while (!arrFile.eof())
-    {
-        arr[i++] = num;
-        arrFile >> num;
     }
 }

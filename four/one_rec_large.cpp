@@ -47,21 +47,31 @@ int findActualIndex(int *cumDistances, int len, int x, int minIndex)
     }
 }
 
+void randomBuildings(int **arr, int len)
+{
+    int height = 1;
+    for (int i = 0; i < len; i++)
+    {
+        int randomNum = rand() % 1000;
+        arr[i] = new int[2]{randomNum, height + randomNum};
+    }
+}
+
 int main()
 {
     clock_t start, end;
-    start = clock();
-    int len = 6;
+    int len = 100000;
     int **arr = new int *[len];
 
     // first param = width
-    // second param = height
-    arr[0] = new int[2]{2, 1};
-    arr[1] = new int[2]{3, 3};
-    arr[2] = new int[2]{2, 4};
-    arr[3] = new int[2]{2, 7};
-    arr[4] = new int[2]{2, 9};
-    arr[5] = new int[2]{1, 10};
+    // // second param = height
+    // arr[0] = new int[2]{2, 1};
+    // arr[1] = new int[2]{3, 3};
+    // arr[2] = new int[2]{2, 4};
+    // arr[3] = new int[2]{2, 7};
+    // arr[4] = new int[2]{2, 9};
+    // arr[5] = new int[2]{1, 10};
+    randomBuildings(arr, len);
 
     int *cumulativeDistances = new int[len];
     int xMax = 0;
@@ -73,8 +83,15 @@ int main()
 
     int yMax = arr[len - 1][1];
 
-    int x = 6;
-    int y = 4;
+    cout << "Maximum possible X coordinate = " << xMax << endl;
+    cout << "Maximum possible Y coordinate = " << yMax << endl;
+    int x, y;
+    cout << "Enter X coordinate: ";
+    cin >> x;
+
+    cout << "Enter Y coordinate: ";
+    cin >> y;
+    start = clock();
 
     int minIndex = findMinIndex(arr, 0, len - 1, x, y) + 1;
     int actualIndex = findActualIndex(cumulativeDistances, len, x, minIndex);
@@ -94,6 +111,7 @@ int main()
         delete[] arr[i];
     }
     delete[] arr;
+    delete[] cumulativeDistances;
     end = clock();
     cout << "Running time = " << (double)end - start << endl;
 }
