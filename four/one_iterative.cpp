@@ -1,15 +1,18 @@
 #include <iostream>
+#include <time.h>
 using namespace std;
 
 int findBuilding(int **, int, int, int);
 
 int main()
 {
+    clock_t start, end;
+    start = clock();
     int len = 6;
     int **arr = new int *[len];
 
     // first param = width
-    // second param = length
+    // second param = height
     arr[0] = new int[2]{2, 1};
     arr[1] = new int[2]{3, 3};
     arr[2] = new int[2]{2, 4};
@@ -17,10 +20,10 @@ int main()
     arr[4] = new int[2]{2, 9};
     arr[5] = new int[2]{1, 10};
 
-    int x = 8;
-    int y = 5;
+    int x = 6;
+    int y = 3;
 
-    int buildingNum = findBuilding(arr, len, x, y);
+    int buildingNum = findBuilding(arr, len, x, y) + 1;
     if (buildingNum == -1)
     {
         cout << "Error: Building Not Found" << endl;
@@ -35,7 +38,10 @@ int main()
         delete[] arr[i];
     }
     delete[] arr;
+    end = clock();
+    cout << "Running time = " << (double)end - start << endl;
 }
+
 int findBuilding(int **arr, int len, int x, int y)
 {
     int xCount = 0;
@@ -43,35 +49,30 @@ int findBuilding(int **arr, int len, int x, int y)
     bool hitX = false;
     bool hitY = false;
     int buildingIndex = 0;
-    while (buildingIndex < len)
-    {
-        if (!hitX)
-        {
-            xCount += arr[buildingIndex][0];
-            if (xCount > x)
-                hitX = true;
-        }
 
-        if (!hitY)
-        {
-            yCount += arr[buildingIndex][1];
-            if (yCount < y)
-                hitY = true;
-        }
-        buildingIndex++;
+    // checks the x coordinate
+    while (buildingIndex < len && !hitX)
+    {
+        xCount += arr[buildingIndex++][0];
+        if (xCount > x)
+            hitX = true;
     }
+
+    // checks the y coordinate
+    if (y <= arr[buildingIndex - 1][1])
+    {
+        hitY = true;
+    }
+
     if (!hitX)
     {
         cout << "Error: X-coordinate " << x << " out of bound." << endl;
-        return -1;
     }
     else if (!hitY)
     {
         cout << "Error: Y-coordinate " << y << " out of bound." << endl;
-        return -1;
     }
-    else
-    {
-        return buildingIndex - 2;
-    }
+
+    return buildingIndex - 1;
+    ;
 }
